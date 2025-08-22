@@ -29,6 +29,7 @@ const StartScreen = ({ onStart }) => {
   const [isNoButtonInstagram, setIsNoButtonInstagram] = useState(false);
   const [showPopis, setShowPopis] = useState(false);
   const [isPopisShown, setIsPopisShown] = useState(false);
+  const [showVinylPlayer, setShowVinylPlayer] = useState(false);
   const phoneNumber = '0955709282';
   const instagramLink = 'https://www.instagram.com/dusevic_paula/';
   const audioRef = useRef(new Audio(audioFile));
@@ -61,21 +62,48 @@ const StartScreen = ({ onStart }) => {
       window.trackEvent('start_button_clicked');
     }
 
-    setIsFlipped(true);
-    const buttonContainer = document.querySelector('.button-container');
-    if (buttonContainer) {
-      buttonContainer.classList.add('clicked');
-    }
-    const iconsContainer = document.querySelector('.icons-container');
-    if (iconsContainer) {
-      iconsContainer.classList.add('show-headset-indicator');
-    }
-    setTimeout(() => {
-      const progressContainer = document.querySelector('.progress-container');
-      if (progressContainer) {
-        progressContainer.classList.add('visible');
+    if (!isFlipped) {
+      // Prvi klik - prikaži sliku i tekst
+      setIsFlipped(true);
+      const buttonContainer = document.querySelector('.button-container');
+      if (buttonContainer) {
+        buttonContainer.classList.add('clicked');
       }
-    }, 500);
+      const iconsContainer = document.querySelector('.icons-container');
+      if (iconsContainer) {
+        iconsContainer.classList.add('show-headset-indicator');
+      }
+          } else {
+        // Drugi klik - rotiraj i prikaži vinyl player
+        // Dodaj animaciju rotacije
+        const welcomeBox = document.querySelector('.welcome-box');
+        if (welcomeBox) {
+          welcomeBox.classList.add('rotate-to-vinyl');
+        }
+        // Prikaži vinyl player nakon animacije s kompletnim setupom
+        setTimeout(() => {
+          setShowVinylPlayer(true);
+          // Automatski pokreni pjesmu
+          if (audioRef.current) {
+            // Track auto-play event
+            if (window.trackAudioEvent) {
+              window.trackAudioEvent('auto_play_vinyl', {
+                action: 'vinyl_auto_start',
+                timestamp: new Date().toISOString()
+              });
+            }
+            audioRef.current.play();
+            setIsPlaying(true);
+            console.log('🎵 Pjesma pokrenuta, audioRef.current:', audioRef.current);
+            
+            // Ukloni hide-vinyl klasu
+            const vinylContainer = document.querySelector('.vinyl-player-container');
+            if (vinylContainer) {
+              vinylContainer.classList.remove('hide-vinyl');
+            }
+          }
+        }, 800); // 0.8s = trajanje animacije
+      }
   };
 
   const handlePlayClick = () => {
@@ -90,6 +118,9 @@ const StartScreen = ({ onStart }) => {
         }
         audioRef.current.play();
         setIsPlaying(true);
+        // Vinyl nastavlja rotaciju od trenutne pozicije
+        
+
       } else {
         // Track pause event
         if (window.trackAudioEvent) {
@@ -100,6 +131,51 @@ const StartScreen = ({ onStart }) => {
         }
         audioRef.current.pause();
         setIsPlaying(false);
+        // Vinyl se zaustavlja na trenutnoj poziciji, ne resetira se
+        
+
+      }
+    }
+  };
+
+  const handleVinylProgressClick = (e) => {
+    if (audioRef.current) {
+      const progressBar = e.currentTarget;
+      const clickPosition = (e.clientX - progressBar.getBoundingClientRect().left) / progressBar.offsetWidth;
+      const newTime = clickPosition * audioRef.current.duration;
+      audioRef.current.currentTime = newTime;
+      
+
+      
+      // Track vinyl progress bar click
+      if (window.trackAudioEvent) {
+        window.trackAudioEvent('vinyl_progress_clicked', {
+          action: 'seek_vinyl_audio',
+          newTime: newTime,
+          duration: audioRef.current.duration,
+          timestamp: new Date().toISOString()
+        });
+      }
+    }
+  };
+
+  const handleVinylProgressDrag = (e) => {
+    if (audioRef.current && e.buttons === 1) { 
+      const progressBar = e.currentTarget;
+      const dragPosition = (e.clientX - progressBar.getBoundingClientRect().left) / progressBar.offsetWidth;
+      const newTime = dragPosition * audioRef.current.duration;
+      audioRef.current.currentTime = newTime;
+      
+
+      
+      // Track vinyl progress bar drag
+      if (window.trackAudioEvent) {
+        window.trackAudioEvent('vinyl_progress_dragged', {
+          action: 'drag_vinyl_audio',
+          newTime: newTime,
+          duration: audioRef.current.duration,
+          timestamp: new Date().toISOString()
+        });
       }
     }
   };
@@ -108,11 +184,13 @@ const StartScreen = ({ onStart }) => {
     if (audioRef.current) {
       const currentTime = audioRef.current.currentTime;
       const duration = audioRef.current.duration;
-      const progress = (currentTime / duration) * 100;
+      const progress = (duration > 0) ? (currentTime / duration) * 100 : 0;
       
       setCurrentTime(currentTime);
       setDuration(duration);
       setProgress(progress);
+
+
 
       // Check if song has ended
       if (currentTime >= duration) {
@@ -128,6 +206,10 @@ const StartScreen = ({ onStart }) => {
         setIsSongEnded(true);
         setIsPlaying(false);
         audioRef.current.pause();
+        
+
+        
+
         
         // Fade out progress bar with animation
         const progressContainer = document.querySelector('.progress-container');
@@ -156,22 +238,29 @@ const StartScreen = ({ onStart }) => {
       }
 
       // Find current lyric based on time
-      const currentLyric = lyrics.find((lyric, index) => {
+      console.log('🔍 Tražim lyrics za vrijeme:', currentTime, 's');
+      const foundLyric = lyrics.find((lyric, index) => {
         const nextLyric = lyrics[index + 1];
-        return currentTime >= lyric.time && (!nextLyric || currentTime < nextLyric.time);
+        const shouldShow = currentTime >= lyric.time && (!nextLyric || currentTime < nextLyric.time);
+        console.log(`📝 Lyrics ${index}: ${lyric.text} (${lyric.time}s) - prikazati: ${shouldShow}`);
+        return shouldShow;
       });
       
-      if (currentLyric) {
+      if (foundLyric) {
+        console.log('✅ Pronađen lyrics:', foundLyric.text, 'za vrijeme:', currentTime, 's');
         // Track lyric change
         if (window.trackAudioEvent) {
           window.trackAudioEvent('lyric_changed', {
             action: 'lyric_displayed',
-            lyric: currentLyric.text,
+            lyric: foundLyric.text,
             time: currentTime,
             timestamp: new Date().toISOString()
           });
         }
-        setCurrentLyric(currentLyric.text);
+        setCurrentLyric(foundLyric.text);
+      } else {
+        console.log('❌ Nema lyrics za vrijeme:', currentTime, 's');
+        setCurrentLyric(''); // Očisti lyrics kada nema trenutnog
       }
     }
   };
@@ -224,13 +313,46 @@ const StartScreen = ({ onStart }) => {
         });
       }
       
-      setCurrentMessage(1);
-      setDisplayedText(renderMessageContent(1));
       // Move circle to info icon
       const iconsContainer = document.querySelector('.icons-container');
       if (iconsContainer) {
         iconsContainer.classList.add('show-info-indicator');
       }
+      
+      // Dodaj animaciju sakrivanja vinyl player-a
+      const vinylContainer = document.querySelector('.vinyl-player-container');
+      if (vinylContainer) {
+        vinylContainer.classList.add('hide-vinyl');
+      }
+      
+      // Ukloni sve elemente reprodukcije pjesme nakon animacije
+      setTimeout(() => {
+        setShowVinylPlayer(false);
+        setCurrentLyric('');
+        setIsPlaying(false);
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current.currentTime = 0;
+        }
+        
+        // Resetiraj progress i vrijeme
+        setProgress(0);
+        setCurrentTime(0);
+        setDuration(0);
+        setIsSongEnded(false);
+        setShowPopis(false);
+        setIsPopisShown(false);
+        
+        // Ukloni rotate-to-vinyl klasu s welcome box-a da se može vratiti
+        const welcomeBox = document.querySelector('.welcome-box');
+        if (welcomeBox) {
+          welcomeBox.classList.remove('rotate-to-vinyl');
+        }
+        
+        // Nastavi s normalnim flow-om aplikacije
+        setCurrentMessage(1);
+        setDisplayedText(renderMessageContent(1));
+      }, 800); // 0.8s animacija
     } else if (currentMessage === 1) {
       // Track next message
       if (window.trackAudioEvent) {
@@ -460,7 +582,11 @@ const StartScreen = ({ onStart }) => {
         });
       }
       
-      audio.addEventListener('timeupdate', handleTimeUpdate);
+      // Dodaj event listener na audioRef.current umjesto na audio varijablu
+      if (audioRef.current) {
+        audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
+        console.log('🎵 Event listener dodan na audioRef.current');
+      }
       audio.addEventListener('error', (e) => {
         // Track audio error
         if (window.trackAudioEvent) {
@@ -540,7 +666,7 @@ const StartScreen = ({ onStart }) => {
           }} 
         />
       )}
-      {!showSplitButtons && (
+      {!showSplitButtons && !showVinylPlayer && (
         <div className={`welcome-box ${isFlipped ? 'flipped' : ''} ${isSecondFlipped ? 'second-flipped' : ''} ${isThirdFlipped ? 'third-flipped' : ''}`}>
           <div className="welcome-box-inner">
             <div className="welcome-box-front">
@@ -608,6 +734,40 @@ const StartScreen = ({ onStart }) => {
         </div>
       )}
 
+      {showVinylPlayer && (
+        <div className="vinyl-player-container">
+          <div 
+            className={`vinyl-record ${isPlaying ? 'spinning' : ''}`}
+            onClick={handlePlayClick}
+          />
+          
+          <div className="vinyl-progress-container">
+            <span className="vinyl-time-display">{formatTime(currentTime)}</span>
+            <div 
+              className="vinyl-progress-bar"
+              onClick={handleVinylProgressClick}
+              onMouseMove={handleVinylProgressDrag}
+              style={{ cursor: 'pointer' }}
+            >
+              <div 
+                className="vinyl-progress-fill" 
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <span className="vinyl-time-display">{formatTime(duration)}</span>
+          </div>
+
+          {currentLyric && !isSongEnded && (
+            <div className="vinyl-lyrics-display">
+              {currentLyric}
+            </div>
+          )}
+
+          
+
+        </div>
+      )}
+
       {showSplitButtons && !buttonResponse && (
         <div className="final-message">
           Ovo je moja malenkost i moja jedina životna želja vidjeti te uživo...
@@ -643,9 +803,9 @@ const StartScreen = ({ onStart }) => {
           {!showSplitButtons && (
             <button 
               className={`start-button ${isFlipped ? 'playing' : ''}`} 
-              onClick={isFlipped ? (isSongEnded ? handleNextClick : handlePlayClick) : handleStartClick}
+              onClick={isFlipped ? (showVinylPlayer ? (isSongEnded ? handleNextClick : handlePlayClick) : (currentMessage === 0 ? handleStartClick : handleNextClick)) : handleStartClick}
             >
-              {isFlipped ? (isPlaying ? 'Pauza' : (isSongEnded ? 'Dalje' : 'Pokreni')) : 'Spremna sam za putovanje!'}
+              {isFlipped ? (isPlaying ? 'Pauza' : (isSongEnded ? 'Dalje' : (showVinylPlayer ? 'Pokreni' : (currentMessage === 0 ? 'Reproduciraj pjesmu' : 'Dalje')))) : 'Spremna sam za putovanje!'}
             </button>
           )}
           {showSplitButtons && (

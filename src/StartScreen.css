@@ -1,5 +1,10 @@
 /* src/StartScreen.css */
 
+:root {
+  --primary-purple: #8a2be2;
+  --pink: #ff69b4;
+}
+
 /* Svemirska pozadina s zvijezdama */
 .background-image {
   position: fixed;
@@ -379,7 +384,18 @@
   left: 0;
   right: 0;
   z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+
+
+
+
+
+
+
 
 .lyrics-display {
   color: #ff69b4;
@@ -393,6 +409,165 @@
   max-width: 90%;
   margin: 0 auto;
 }
+
+
+
+/* Vinyl Record Player Styles */
+.vinyl-player-container {
+  width: 90%;
+  max-width: 400px;
+  height: 65vh;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  border: none;
+  box-shadow: 0 0 30px rgba(255, 105, 180, 0.4), 0 0 60px rgba(138, 43, 226, 0.2);
+  transition: transform 0.8s;
+  background: rgba(13, 12, 30, 0.8);
+  border: 2px solid rgba(255, 105, 180, 0.3);
+  padding: 20px;
+  margin-bottom: 30px;
+  margin-top: -10vh;
+  overflow: hidden;
+  animation: fadeInUp 1s ease-out;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.vinyl-player-container.hide-vinyl {
+  animation: hideVinyl 0.8s ease-in-out forwards;
+}
+
+@keyframes hideVinyl {
+  0% {
+    opacity: 1;
+    transform: scale(1) rotateY(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5) rotateY(180deg);
+  }
+}
+
+
+
+
+
+.vinyl-record {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background-image: url('./Vinil Record.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  margin: 10px auto; /* Smanjeno sa 20px na 10px da se povuče gore */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.vinyl-record {
+  animation: spin 3s linear infinite;
+  animation-play-state: paused;
+}
+
+.vinyl-record.spinning {
+  animation-play-state: running;
+}
+
+.vinyl-record::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background: #333;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.vinyl-progress-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  margin: 5px 0; /* Smanjeno sa 15px na 5px da se povuče gore */
+}
+
+.vinyl-time-display {
+  color: #fff;
+  font-size: 0.9rem;
+  min-width: 40px;
+  text-align: center;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.vinyl-progress-bar {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(77, 32, 130, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.vinyl-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-purple), var(--pink));
+  width: 0%;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 10px rgba(77, 32, 130, 0.8);
+}
+
+.vinyl-lyrics-display {
+  color: #ff69b4;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  margin-top: 5px; /* Smanjeno sa 15px na 5px da se povuče gore */
+  height: 100px; /* Povećano za 2 reda */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  line-height: 1.3;
+  border: 2px solid rgba(255, 105, 180, 0.3);
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+  z-index: 10;
+  position: relative;
+  /* Dodajemo overflow hidden da se tekst ne prelijeva */
+  overflow: hidden;
+}
+
+/* Lyrics se prikazuju preko welcome text-a, ne sakrivaju ga */
+
+
 
 .completion-message {
   color: white;
@@ -443,6 +618,21 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes rotateToVinyl {
+  0% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotateY(180deg);
+    opacity: 0;
+  }
+}
+
+.welcome-box.rotate-to-vinyl {
+  animation: rotateToVinyl 0.8s ease-in-out forwards;
 }
 
 .next-text {
@@ -984,4 +1174,25 @@
   text-align: center;
   padding: 0 20px;
   z-index: 1;
+}
+
+.lyrics-container.active:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 40px rgba(255, 105, 180, 0.4);
+}
+
+.lyrics-container:not(.active) {
+  display: none;
+  animation: none;
+}
+
+@keyframes fadeInLyrics {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
