@@ -467,7 +467,7 @@
   background-size: cover;
   background-position: center;
   position: relative;
-  margin: 10px auto; /* Smanjeno sa 20px na 10px da se povuče gore */
+  margin: 20px auto;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   transition: transform 0.3s ease;
 }
@@ -511,7 +511,7 @@
   padding: 10px;
   background: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
-  margin: 5px 0; /* Smanjeno sa 15px na 5px da se povuče gore */
+  margin: 15px 0;
 }
 
 .vinyl-time-display {
@@ -550,8 +550,8 @@
   padding: 15px;
   background: rgba(0, 0, 0, 0.8);
   border-radius: 10px;
-  margin-top: 5px; /* Smanjeno sa 15px na 5px da se povuče gore */
-  height: 100px; /* Povećano za 2 reda */
+  margin-top: 15px;
+  min-height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -561,8 +561,6 @@
   box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
   z-index: 10;
   position: relative;
-  /* Dodajemo overflow hidden da se tekst ne prelijeva */
-  overflow: hidden;
 }
 
 /* Lyrics se prikazuju preko welcome text-a, ne sakrivaju ga */

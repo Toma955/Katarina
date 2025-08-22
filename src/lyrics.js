@@ -23,29 +23,29 @@ const lyrics = [
   { time: 78.00,  text: `Ona stvarna ti.` },
 
   { time: 83.00,  text: `Predugo operu sama sviraš,` },
-  { time: 87.00,  text: `znam da te to ne dodiće,` },
+  { time: 87.00,  text: `znam da te to ne dotiće,` },
   { time: 91.00,  text: `al’ ja neću samo gledat’,` },
   { time: 94.00,  text: `doći ću i probat’ sve.` },
 
   { time: 98.00, text: `Jer želim znat’ tko si stvarna ti.` },
 
-  { time: 105.00, text: `Hoćeš li mi pokazati puteve do snova?` },
+  { time: 106.00, text: `Hoćeš li mi pokazati puteve do snova?` },
   { time: 113.00, text: `Hoćeš li mi pokazati sjaj,` },
   { time: 118.00, text: `da te u tami pronađem?` },
   { time: 121.00, text: `Skini taj ponos s lica.` },
   { time: 125.00, text: `Skini strah iz pogleda.` },
-  { time: 129.00, text: `Jer želim saznat’ ` },
+  { time: 128.00, text: `Jer želim saznat’ ` },
 
   { time: 131.00, text: `Tko si ona stvarna ti.` },
 
   { time: 140.00, text: `I nitko te ne dodirne,` },
-  { time: 143.00, text: `ne nastavi te samo gledat’,` },
+  { time: 142.00, text: `ne nastavi te samo gledat’,` },
   { time: 146.16, text: `doći ću i probat’ sve,` },
   { time: 152.50, text: `radije nestat nego se predat.` },
 
   { time: 160.16, text: `Penjem se do tvojih visina,` },
   { time: 165.00, text: `ako nestaneš – nestajem s tobom.` },
-  { time: 172.00, text: `Ne bojim se leta s visina,` },
+  { time: 172.00, text: `Ne bojim se leta do dubina,` },
   { time: 178.16, text: `već da bez tebe ostanem sam sa sobom.` },
 
   { time: 188.00, text: `Hoćeš li mi pokazat’ tko si ispod tuge?` },

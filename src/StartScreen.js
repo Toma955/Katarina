@@ -94,7 +94,6 @@ const StartScreen = ({ onStart }) => {
             }
             audioRef.current.play();
             setIsPlaying(true);
-            console.log('🎵 Pjesma pokrenuta, audioRef.current:', audioRef.current);
             
             // Ukloni hide-vinyl klasu
             const vinylContainer = document.querySelector('.vinyl-player-container');
@@ -184,7 +183,7 @@ const StartScreen = ({ onStart }) => {
     if (audioRef.current) {
       const currentTime = audioRef.current.currentTime;
       const duration = audioRef.current.duration;
-      const progress = (duration > 0) ? (currentTime / duration) * 100 : 0;
+      const progress = (currentTime / duration) * 100;
       
       setCurrentTime(currentTime);
       setDuration(duration);
@@ -238,16 +237,12 @@ const StartScreen = ({ onStart }) => {
       }
 
       // Find current lyric based on time
-      console.log('🔍 Tražim lyrics za vrijeme:', currentTime, 's');
       const foundLyric = lyrics.find((lyric, index) => {
         const nextLyric = lyrics[index + 1];
-        const shouldShow = currentTime >= lyric.time && (!nextLyric || currentTime < nextLyric.time);
-        console.log(`📝 Lyrics ${index}: ${lyric.text} (${lyric.time}s) - prikazati: ${shouldShow}`);
-        return shouldShow;
+        return currentTime >= lyric.time && (!nextLyric || currentTime < nextLyric.time);
       });
       
       if (foundLyric) {
-        console.log('✅ Pronađen lyrics:', foundLyric.text, 'za vrijeme:', currentTime, 's');
         // Track lyric change
         if (window.trackAudioEvent) {
           window.trackAudioEvent('lyric_changed', {
@@ -259,7 +254,6 @@ const StartScreen = ({ onStart }) => {
         }
         setCurrentLyric(foundLyric.text);
       } else {
-        console.log('❌ Nema lyrics za vrijeme:', currentTime, 's');
         setCurrentLyric(''); // Očisti lyrics kada nema trenutnog
       }
     }
@@ -582,11 +576,7 @@ const StartScreen = ({ onStart }) => {
         });
       }
       
-      // Dodaj event listener na audioRef.current umjesto na audio varijablu
-      if (audioRef.current) {
-        audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
-        console.log('🎵 Event listener dodan na audioRef.current');
-      }
+      audio.addEventListener('timeupdate', handleTimeUpdate);
       audio.addEventListener('error', (e) => {
         // Track audio error
         if (window.trackAudioEvent) {
@@ -757,12 +747,11 @@ const StartScreen = ({ onStart }) => {
             <span className="vinyl-time-display">{formatTime(duration)}</span>
           </div>
 
-          {currentLyric && !isSongEnded && (
+          {currentLyric && !isSongEnded && !showPopis && (
             <div className="vinyl-lyrics-display">
               {currentLyric}
             </div>
           )}
-
           
 
         </div>
