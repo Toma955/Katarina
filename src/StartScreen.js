@@ -745,7 +745,7 @@ const StartScreen = ({ onStart }) => {
                 </div>
                 
                 {showPopis && currentMessage >= 1 && (
-                  <div className={`popis-container ${isHidingFascinatingText ? 'hidden-elements' : ''}`}>
+                  <div className="popis-container">
                     <div className="popis-title">Ona stvarna ti</div>
                     <div className="popis-content">
                       <div className="popis-item">Svima kažeš „ne", jer lakše je tako, znam.</div>
