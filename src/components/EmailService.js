@@ -8,7 +8,6 @@ const EMAILJS_PUBLIC_KEY = '3AMTXipsxA2xeCi_5';
 
 // Email konfiguracija - OVDJE SE ŠALJU OBAVIJESTI
 const NOTIFICATION_EMAIL = 'tomas.babich75@gmail.com';
-const ALTERNATIVE_EMAIL = 'tomas.babich75@gmail.com'; // Isti email za sve obavijesti
 
 export const sendEmail = async (userResponse, userChoice, additionalData = {}) => {
   try {

@@ -553,13 +553,7 @@ const StartScreen = ({ onStart }) => {
     setIsHidingFinalElements(false);
   };
 
-  const handleHideFascinatingText = () => {
-    setIsHidingFascinatingText(true);
-  };
 
-  const handleShowFascinatingText = () => {
-    setIsHidingFascinatingText(false);
-  };
 
   const renderMessageContent = (messageType) => {
     switch(messageType) {
