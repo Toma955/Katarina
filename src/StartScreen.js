@@ -1,5 +1,5 @@
 // src/StartScreen.js
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import './StartScreen.css';
 import backgroundImage from './KatarinaD.png';
 import web2Image from './Web-2.jpg';
@@ -184,7 +184,7 @@ const StartScreen = ({ onStart }) => {
     }
   };
 
-  const handleTimeUpdate = () => {
+  const handleTimeUpdate = useCallback(() => {
     if (audioRef.current) {
       const currentTime = audioRef.current.currentTime;
       const duration = audioRef.current.duration;
@@ -275,7 +275,7 @@ const StartScreen = ({ onStart }) => {
         setCurrentLyric(''); // Očisti lyrics kada nema trenutnog
       }
     }
-  };
+  }, []);
 
   const handleProgressBarClick = (e) => {
     if (audioRef.current) {
