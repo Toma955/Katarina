@@ -633,6 +633,7 @@ const StartScreen = ({ onStart }) => {
     };
   }, [isFlipped, showVinylPlayer, handleTimeUpdate]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setDisplayedText(renderMessageContent(currentMessage));
   }, [currentMessage]);
