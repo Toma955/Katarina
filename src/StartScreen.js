@@ -596,6 +596,7 @@ const StartScreen = ({ onStart }) => {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (isFlipped && audioRef.current) {
       const audio = audioRef.current;
@@ -661,6 +662,7 @@ const StartScreen = ({ onStart }) => {
   }, []);
 
   // useEffect za osiguravanje da se lyrics prikazuju kad se vinyl player prikaže
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (showVinylPlayer && audioRef.current) {
       // Dodaj event listener za timeupdate ako već nije dodan
