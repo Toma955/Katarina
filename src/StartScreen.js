@@ -275,7 +275,7 @@ const StartScreen = ({ onStart }) => {
         setCurrentLyric(''); // Očisti lyrics kada nema trenutnog
       }
     }
-  }, []);
+  };
 
   const handleProgressBarClick = (e) => {
     if (audioRef.current) {
