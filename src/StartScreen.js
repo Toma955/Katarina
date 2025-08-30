@@ -34,7 +34,7 @@ const StartScreen = ({ onStart }) => {
 
   const [showVinylPlayer, setShowVinylPlayer] = useState(false);
   const [isHidingFinalElements, setIsHidingFinalElements] = useState(false);
-  const [isHidingFascinatingText, setIsHidingFascinatingText] = useState(false);
+
   const phoneNumber = '0955709282';
   const instagramLink = 'https://www.instagram.com/dusevic_katarina/';
   const audioRef = useRef(new Audio(audioFile));
@@ -735,7 +735,7 @@ const StartScreen = ({ onStart }) => {
                 i da si <span className="highlight">spremna</span> za putovanje?
               </h1>
             </div>
-            <div className={`welcome-box-back ${isHidingFascinatingText ? 'expanded' : ''}`} style={{ backgroundImage: `url(${currentMessage >= 1 ? require('./KatarinaSong.jpeg') : backgroundImage})` }}>
+            <div className="welcome-box-back" style={{ backgroundImage: `url(${currentMessage >= 1 ? require('./KatarinaSong.jpeg') : backgroundImage})` }}>
               <div className="welcome-text-overlay">
                 {!isTransitioning && displayedText}
                 <div className="lyrics-container">
@@ -851,7 +851,7 @@ const StartScreen = ({ onStart }) => {
 
       {showButtons && (
         <div className="button-container">
-            {!showSplitButtons && !isHidingFinalElements && !isHidingFascinatingText && (
+            {!showSplitButtons && !isHidingFinalElements && (
                                       <button 
               className={`start-button ${isFlipped ? 'playing' : ''}`} 
               onClick={isFlipped ? (showVinylPlayer ? (isSongEnded ? handleNextClick : handlePlayClick) : (currentMessage === 0 ? handleStartClick : handleNextClick)) : handleStartClick}
