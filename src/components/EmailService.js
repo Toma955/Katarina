@@ -50,14 +50,14 @@ export const sendEmail = async (userResponse, userChoice, additionalData = {}) =
       // Pokušavamo različite varijante parametara koje EmailJS može očekivati
       to_name: 'Tomas Babich',
       to_email: NOTIFICATION_EMAIL,
-      from_name: 'PaulaApp',
-      from_email: 'noreply@paulaapp.com',
+      from_name: 'KatarinaApp',
+      from_email: 'noreply@katarinaapp.com',
       
       // Alternativni parametri koje EmailJS može očekivati
       recipient_name: 'Tomas Babich',
       recipient_email: NOTIFICATION_EMAIL,
-      sender_name: 'PaulaApp',
-      sender_email: 'noreply@paulaapp.com',
+      sender_name: 'KatarinaApp',
+      sender_email: 'noreply@katarinaapp.com',
       
       // Dodatni parametri koje EmailJS može očekivati
       reply_to: NOTIFICATION_EMAIL,
@@ -69,7 +69,7 @@ export const sendEmail = async (userResponse, userChoice, additionalData = {}) =
       user_response: userResponse,
       user_choice: userChoice,
       timestamp: new Date().toISOString(),
-      app_name: 'PaulaApp - Svemirski Romantični WebApp',
+      app_name: 'KatarinaApp - Svemirski Romantični WebApp',
       
       // User device info - pojednostavljeno
       screen_info: `${userInfo.screen_width}x${userInfo.screen_height}`,

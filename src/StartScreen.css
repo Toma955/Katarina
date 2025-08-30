@@ -5,6 +5,10 @@
   --pink: #ff69b4;
 }
 
+* {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
 /* Svemirska pozadina s zvijezdama */
 .background-image {
   position: fixed;
@@ -63,6 +67,17 @@
   }
 }
 
+@keyframes rotateGlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+
 .start-screen {
   position: absolute;
   inset: 0;
@@ -77,8 +92,9 @@
 
 .welcome-box {
   width: 90%;
-  max-width: 400px;
-  height: 65vh;
+  max-width: 90vw;
+  height: 70vh;
+  min-height: 400px;
   perspective: 1000px;
   margin: 0 auto;
   position: relative;
@@ -89,8 +105,8 @@
   background: rgba(13, 12, 30, 0.8);
   border: 2px solid rgba(255, 105, 180, 0.3);
   padding: 0;
-  margin-bottom: 30px;
-  margin-top: -10vh;
+  margin-bottom: 3vh;
+  margin-top: 2vh;
   overflow: hidden;
   animation: fadeInUp 1s ease-out;
 }
@@ -143,8 +159,13 @@
   transition: all 0.8s ease-out;
 }
 
+.welcome-box-back.expanded {
+  background-size: 120% 120%;
+  transform: rotateY(180deg) scale(1.1);
+}
+
 .welcome-box-back.second-background {
-  background-image: url('./PaulaD.png') !important;
+  background-image: url('./KatarinaD.png') !important;
 }
 
 .welcome-box.second-flipped .welcome-box-back {
@@ -170,11 +191,11 @@
 .welcome-text {
   color: white;
   text-align: center;
-  font-size: 1.2rem;
-  line-height: 1;
+  font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+  line-height: 1.4;
   margin: 0;
-  padding: 20px;
-  font-family: 'Arial', sans-serif;
+  padding: 3vh;
+  font-family: 'Roboto Condensed', sans-serif;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   transition: opacity 0.5s ease;
   position: relative;
@@ -183,22 +204,25 @@
 
 .welcome-text .highlight {
   color: #ff69b4;
-  font-size: 1.5rem;
+  font-size: clamp(1.4rem, 5vw, 2rem);
   font-weight: 700;
   text-shadow: 0 0 15px rgba(255, 105, 180, 0.6), 0 0 30px rgba(138, 43, 226, 0.4);
   background: linear-gradient(45deg, #ff69b4, #da70d6, #8a2be2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  margin: 0 0.2em 0 0.2em;
+  display: inline;
 }
 
 .welcome-text br {
-  margin: 0.3em 0;
+  margin: 0.5em 0;
 }
 
 .welcome-text.shrink {
-  margin-top: 60px;
-  font-size: 1.3rem;
+  margin-top: 6vh;
+  font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+  line-height: 1.8;
 }
 
 .welcome-text.fade-out {
@@ -208,35 +232,37 @@
 }
 
 .welcome-text p {
-  margin: 0.3em 0;
+  margin: 0.5em 0;
 }
 
 .welcome-text .highlight {
   color: #ff69b4;
-  font-size: 1.5rem;
+  font-size: clamp(1.4rem, 5vw, 2rem);
   font-weight: 700;
   text-shadow: 0 0 15px rgba(255, 105, 180, 0.6), 0 0 30px rgba(138, 43, 226, 0.4);
   background: linear-gradient(45deg, #ff69b4, #da70d6, #8a2be2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  margin: 0 0.2em 0 0.2em;
+  display: inline;
 }
 
-.welcome-text p:nth-child(1) { animation-delay: 0.1s; }
-.welcome-text p:nth-child(2) { animation-delay: 0.2s; }
-.welcome-text p:nth-child(3) { animation-delay: 0.3s; }
+.welcome-text p:nth-child(1) { animation-delay: 0.1s; margin-bottom: 1vh; }
+.welcome-text p:nth-child(2) { animation-delay: 0.2s; margin-bottom: 1vh; }
+.welcome-text p:nth-child(3) { animation-delay: 0.3s; margin-bottom: 1vh; }
 
 .progress-container {
   position: fixed;
-  bottom: 80px;
+  bottom: 8vh;
   left: 50%;
   transform: translateX(-50%);
   width: 85%;
-  max-width: 350px;
+  max-width: 90vw;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px;
+  gap: 2vw;
+  padding: 2vh;
   background: rgba(13, 12, 30, 0.8);
   border: 1px solid rgba(255, 105, 180, 0.3);
   border-radius: 25px;
@@ -267,20 +293,23 @@
 
 .time-display {
   color: white;
-  font-size: 12px;
-  min-width: 40px;
+  font-size: clamp(10px, 2.5vw, 12px);
+  font-family: 'Roboto Condensed', sans-serif;
+  min-width: 8vw;
   text-align: center;
 }
 
 .start-button {
-  padding: 15px 30px;
-  font-size: 18px;
+  padding: 2vh 4vw;
+  font-size: clamp(16px, 4vw, 18px);
   border: none;
   border-radius: 25px;
   cursor: pointer;
   transition: all 0.3s ease;
-  min-width: 120px;
+  min-width: 20vw;
+  max-width: 200px;
   text-align: center;
+  font-family: 'Roboto Condensed', sans-serif;
   font-weight: 600;
   box-shadow: 0 4px 20px rgba(255, 105, 180, 0.4), 0 0 40px rgba(138, 43, 226, 0.2);
   background: linear-gradient(135deg, #ff69b4, #da70d6, #8a2be2);
@@ -297,7 +326,8 @@
 .start-button.split {
   position: relative;
   bottom: auto;
-  min-width: 140px;
+  min-width: 18vw;
+  max-width: 160px;
   margin: 0;
 }
 
@@ -320,34 +350,91 @@
 
 @media (max-width: 480px) {
   .progress-container {
-    bottom: 80px;
-    width: 85%;
-    max-width: 350px;
+    bottom: 8vh;
+    width: 90%;
+    max-width: 95vw;
   }
   
   .start-button {
-    padding: 12px 25px;
-    font-size: 16px;
-    min-width: 110px;
+    padding: 1.5vh 3vw;
+    font-size: clamp(14px, 3.5vw, 16px);
+    min-width: 25vw;
   }
   
   .start-button.split {
-    min-width: 120px;
-    padding: 12px 20px;
-    font-size: 16px;
+    min-width: 22vw;
+    padding: 1.5vh 2.5vw;
+    font-size: clamp(14px, 3.5vw, 16px);
   }
   
   .button-container {
     flex-direction: row;
-    gap: 10px;
+    gap: 2vw;
   }
   
   .welcome-box {
-    margin-top: -5vh;
+    margin-top: 1vh;
+    height: 75vh;
   }
   
   .welcome-text {
-    margin-top: 40px;
+    margin-top: 4vh;
+    padding: 2vh;
+  }
+  
+  .vinyl-record {
+    width: 70vw;
+    height: 70vw;
+    max-width: 200px;
+    max-height: 200px;
+  }
+}
+
+/* Medium screens */
+@media (min-width: 481px) and (max-width: 768px) {
+  .welcome-box {
+    height: 65vh;
+    max-width: 85vw;
+  }
+  
+  .vinyl-player-container {
+    height: 65vh;
+    max-width: 85vw;
+  }
+  
+  .vinyl-record {
+    width: 55vw;
+    height: 55vw;
+    max-width: 220px;
+    max-height: 220px;
+  }
+  
+  .start-button {
+    min-width: 18vw;
+    max-width: 180px;
+  }
+}
+
+/* Large screens */
+@media (min-width: 769px) {
+  .welcome-box {
+    max-width: 600px;
+    height: 60vh;
+  }
+  
+  .vinyl-player-container {
+    max-width: 600px;
+    height: 60vh;
+  }
+  
+  .vinyl-record {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .start-button {
+    min-width: 150px;
+    max-width: 250px;
   }
 }
 
@@ -378,15 +465,21 @@
 .lyrics-container {
   width: 100%;
   text-align: center;
-  margin-top: 10px;
+  margin-top: 2vh;
   position: absolute;
-  bottom: 10px;
+  bottom: 0vh;
   left: 0;
   right: 0;
   z-index: 5;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 35vh;
+  min-height: 250px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid rgba(255, 105, 180, 0.3);
+  border-radius: 15px;
+  padding: 2vh;
 }
 
 
@@ -399,15 +492,19 @@
 
 .lyrics-display {
   color: #ff69b4;
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  font-family: 'Roboto Condensed', sans-serif;
   font-weight: 600;
   text-align: center;
   text-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
-  padding: 15px;
-  background: rgba(0, 0, 0, 0.7);
-  border-radius: 10px;
   max-width: 90%;
   margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.4;
 }
 
 
@@ -415,8 +512,9 @@
 /* Vinyl Record Player Styles */
 .vinyl-player-container {
   width: 90%;
-  max-width: 400px;
-  height: 65vh;
+  max-width: 90vw;
+  height: 70vh;
+  min-height: 400px;
   margin: 0 auto;
   position: relative;
   z-index: 2;
@@ -425,9 +523,9 @@
   transition: transform 0.8s;
   background: rgba(13, 12, 30, 0.8);
   border: 2px solid rgba(255, 105, 180, 0.3);
-  padding: 20px;
-  margin-bottom: 30px;
-  margin-top: -10vh;
+  padding: 3vh;
+  margin-bottom: 3vh;
+  margin-top: 2vh;
   overflow: hidden;
   animation: fadeInUp 1s ease-out;
   border-radius: 20px;
@@ -459,6 +557,31 @@
 
 
 
+
+
+
+
+.vinyl-record::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  background-image: url('./Katarina Viinil.png');
+  background-size: cover;
+  background-position: center;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 1s ease;
+  z-index: 1;
+}
+
+.vinyl-record.show-katarina::after {
+  opacity: 0.5;
+}
+
 .vinyl-record {
   width: 250px;
   height: 250px;
@@ -467,57 +590,152 @@
   background-size: cover;
   background-position: center;
   position: relative;
-  margin: 20px auto;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s ease;
-}
-
-.vinyl-record {
+  margin: 2vh auto;
   animation: spin 3s linear infinite;
   animation-play-state: paused;
+  cursor: pointer;
 }
 
 .vinyl-record.spinning {
   animation-play-state: running;
 }
 
-.vinyl-record::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20px;
-  height: 20px;
-  background: #333;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
+
 
 @keyframes spin {
-  from {
+  0% {
     transform: rotate(0deg);
   }
-  to {
+  100% {
     transform: rotate(360deg);
   }
 }
+
+.hide-final-elements-button {
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 105, 180, 0.8);
+  border: 2px solid rgba(255, 105, 180, 0.3);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+}
+
+.hide-final-elements-button:hover {
+  background: rgba(255, 105, 180, 1);
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+}
+
+.hide-final-elements-button.active {
+  background: rgba(138, 43, 226, 0.8);
+  border-color: rgba(138, 43, 226, 0.3);
+  box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
+}
+
+.hide-final-elements-button i {
+  font-size: 16px;
+}
+
+.hidden-elements {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.split-buttons-container {
+  position: fixed;
+  bottom: 20px;
+  left: 5%;
+  right: 5%;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+.start-button.split.left {
+  background: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.start-button.split.left:hover {
+  background: #218838;
+  border-color: #218838;
+  transform: scale(1.05);
+}
+
+
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+
+
+.malenkost-text {
+  color: #ff69b4;
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 600;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
 
 .vinyl-progress-container {
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px;
+  gap: 2vw;
+  padding: 2vh;
   background: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
-  margin: 15px 0;
+  margin: 2vh 0;
 }
 
 .vinyl-time-display {
   color: #fff;
-  font-size: 0.9rem;
-  min-width: 40px;
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+  font-family: 'Roboto Condensed', sans-serif;
+  min-width: 8vw;
   text-align: center;
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
@@ -543,15 +761,16 @@
 
 .vinyl-lyrics-display {
   color: #ff69b4;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 3vw, 1.1rem);
+  font-family: 'Roboto Condensed', sans-serif;
   font-weight: 600;
   text-align: center;
   text-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
-  padding: 15px;
+  padding: 2vh;
   background: rgba(0, 0, 0, 0.8);
   border-radius: 10px;
-  margin-top: 15px;
-  min-height: 50px;
+  margin-top: 2vh;
+  min-height: 6vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -755,27 +974,27 @@
 
 .button-container {
   position: fixed;
-  bottom: 60px;
+  bottom: 6vh;
   left: 0;
   right: 0;
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 2vw;
   z-index: 10;
-  padding: 0 20px;
+  padding: 0 2vw;
   transition: bottom 0.5s ease-out;
 }
 
 .button-container.clicked {
-  bottom: 20px;
+  bottom: 2vh;
 }
 
 @keyframes buttonMoveDown {
   from {
-    bottom: 60px;
+    bottom: 6vh;
   }
   to {
-    bottom: 20px;
+    bottom: 2vh;
   }
 }
 

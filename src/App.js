@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import StartScreen from './StartScreen';
 import AudioPlayer from './AudioPlayer';
 import lyrics from './lyrics';
-import audioFile from './PaulaD.wav';
+import audioFile from './KatarinaD.mp3';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import CustomAnalytics from './components/Analytics';
